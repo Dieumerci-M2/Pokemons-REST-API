@@ -1,5 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
+const favicon = require('serve-favicon')
 let { message } = require('statuses')
 const {success} = require('./helper')
 const listPockemon = require('./listPockemon')
@@ -7,7 +8,9 @@ const listPockemon = require('./listPockemon')
 const app = express()
 const port = 5000
 
-app.use(morgan('dev'))
+app
+    .use(favicon(__dirname + '/favicon.ico'))
+    .use(morgan('dev'))
 // app.use((req,res,next)=>{
 //     console.log(`URL: ${req.url}`);
 //     next()
