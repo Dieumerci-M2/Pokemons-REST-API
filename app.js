@@ -1,4 +1,5 @@
 const express = require('express')
+const morgan = require('morgan')
 let { message } = require('statuses')
 const {success} = require('./helper')
 const listPockemon = require('./listPockemon')
@@ -6,11 +7,11 @@ const listPockemon = require('./listPockemon')
 const app = express()
 const port = 5000
 
-const logger = ((req,res,next)=>{
-    console.log(`URL: ${req.url}`);
-    next()
-})
-app.use(logger)
+app.use(morgan('dev'))
+// app.use((req,res,next)=>{
+//     console.log(`URL: ${req.url}`);
+//     next()
+// })
 
 app.get('/',(req,res) => {
     res.send(`<p> je suis là 🤙</p>`)
