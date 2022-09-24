@@ -2,12 +2,14 @@
 const express = require('express')
 // Call morgan midlleware since his node_module
 const morgan = require('morgan')
+// Call body-parse middleware sice his module
+const bodyParse = require('body-parser') 
 // Call serve-favicon since node-module
 const favicon = require('serve-favicon')
 // destructure message from succsess function
 let { message } = require('statuses')
 // Call success function to get message and data
-const {success} = require('./helper')
+const {success,unicId} = require('./helper')
 // Call listPockemon Object to manipulate data
 const listPockemon = require('./listPockemon')
 
@@ -19,6 +21,7 @@ const port = 5000
 app
     .use(favicon(__dirname + '/favicon.ico'))
     .use(morgan('dev'))
+    .use(bodyParse.json())
 // app.use((req,res,next)=>{
 //     console.log(`URL: ${req.url}`);
 //     next()
@@ -49,7 +52,13 @@ app.get('/api', (req,res) =>{
     message = `Voici tous les Pockemons`
     res.json(success(message,listPockemon))
 })
-
-
+// use Post metho to get a new Pockemon in listPockemon
+app.post('/api',(req,res)=>{
+    const id = unicId(listPockemon)
+    const pockemonCreated = {...req.body, ...{id: id, created: new Date()}}
+    listPockemon.push(pockemonCreated)
+    const message = `le Pockemon ${pockemonCreated.name} a bien été créer`
+    res.json(success(message,pockemonCreated))
+})
 
 app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`))
