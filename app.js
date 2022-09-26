@@ -52,7 +52,7 @@ app.get('/api', (req,res) =>{
     message = `Voici tous les Pockemons`
     res.json(success(message,listPockemon))
 })
-// use Post metho to get a new Pockemon in listPockemon
+// use Post method to get a new Pockemon in listPockemon
 app.post('/api',(req,res)=>{
     const id = unicId(listPockemon)
     const pockemonCreated = {...req.body, ...{id: id, created: new Date()}}
@@ -60,5 +60,14 @@ app.post('/api',(req,res)=>{
     const message = `le Pockemon ${pockemonCreated.name} a bien été créer`
     res.json(success(message,pockemonCreated))
 })
-
+// use Put method to update a listPochemon
+app.put('api/pockemon/:id',(req,res)=>{
+    let id = parseInt(req.params.id)
+    let pockemonUpdate = { ...req.body, id: id}
+    listPockemon = listPockemon.map(pockemon=>{
+        return pockemon.id === id ? pockemonUpdate : pockemon
+    })
+    let message = `le pockemon ${pockemonUpdate.name} a bien été mofidier`
+    res.json(success(message,pockemonUpdate))
+})
 app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`))
