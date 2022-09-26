@@ -1,5 +1,7 @@
 // Call express since node_module
 const express = require('express')
+// Call Sequilize ORM to communucate with SQL dataBase
+const Sequilize = require('sequelize')
 // Call morgan midlleware since his node_module
 const morgan = require('morgan')
 // Call body-parse middleware sice his module
@@ -17,6 +19,24 @@ const listPockemon = require('./listPockemon')
 const app = express()
 // Fixe port for running app content
 const port = 5000
+// Configure Sequelize ORM
+const sequelize = new Sequilize(
+    'pockedex',
+    'root',
+    '',
+    {
+        host: 'localhost',
+        dialect: 'mariadb',
+        dialectOption: {
+            timezone: 'Etc/GMT+2'
+        },
+        logging: false
+    }
+)
+// Verify if I'm allready connect to the DB
+sequelize.authenticate()
+    .then(()=> console.log(`la connexion à la DB a était bien reçus`))
+    .catch(err => console.log(`la connexion à la DB n'as pas été recus ${err}`))
 // Middlewares
 app
     .use(favicon(__dirname + '/favicon.ico'))
