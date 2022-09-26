@@ -70,4 +70,12 @@ app.put('api/pockemon/:id',(req,res)=>{
     let message = `le pockemon ${pockemonUpdate.name} a bien été mofidier`
     res.json(success(message,pockemonUpdate))
 })
+// use DELETE method to delete one pockemon on the listPockemon
+app.delete('api/pockemon/:id' ,(req,res)=>{
+    const id = parseInt(req.params.id)
+    const deletePockemon = listPockemon.find(pockemon=> pockemon.id === id)
+    listPockemon.filter(pockemon.id !== id)
+    let message = `le Pockemon ${deletePockemon} a bien été suprimer`
+    res.json(success(message,deletePockemon))
+})
 app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`))
