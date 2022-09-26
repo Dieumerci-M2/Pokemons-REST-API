@@ -22,11 +22,10 @@ app
     .use(favicon(__dirname + '/favicon.ico'))
     .use(morgan('dev'))
     .use(bodyParse.json())
-// app.use((req,res,next)=>{
-//     console.log(`URL: ${req.url}`);
-//     next()
-// })
-// use get method to define racine road showing 
+    .use(express.json())
+// Fix port listerning
+app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`))
+// use Get method to configure racine road
 app.get('/',(req,res) => {
     res.send(`<p> je suis là 🤙</p>`)
 })
@@ -61,21 +60,23 @@ app.post('/api',(req,res)=>{
     res.json(success(message,pockemonCreated))
 })
 // use Put method to update a listPochemon
-app.put('api/pockemon/:id',(req,res)=>{
-    let id = parseInt(req.params.id)
-    let pockemonUpdate = { ...req.body, id: id}
-    listPockemon = listPockemon.map(pockemon=>{
-        return pockemon.id === id ? pockemonUpdate : pockemon
-    })
+app.put('api/pockemon/:id', (req,res)=>{
+    const id = Number(req.params.id)
+    const index = listPockemon.findIndex(pockemon => pockemon.id === id)
+    if(index === -1){
+        return res.send(`le Pockemon n'est pas trouver`)
+    }
+    const pockemonUpdate = { ...req.body, id: listPockemon[index].id
+    } 
     let message = `le pockemon ${pockemonUpdate.name} a bien été mofidier`
-    res.json(success(message,pockemonUpdate))
-})
+    res.json(success(message,pockemonUpdate))    
+    })
+
 // use DELETE method to delete one pockemon on the listPockemon
 app.delete('api/pockemon/:id' ,(req,res)=>{
     const id = parseInt(req.params.id)
-    const deletePockemon = listPockemon.find(pockemon=> pockemon.id === id)
+    const deletePockemon = listPockemon(pockemon=> pockemon.id === id)
     listPockemon.filter(pockemon.id !== id)
     let message = `le Pockemon ${deletePockemon} a bien été suprimer`
     res.json(success(message,deletePockemon))
 })
-app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`))
