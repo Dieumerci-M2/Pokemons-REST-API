@@ -42,11 +42,13 @@ sequelize.authenticate()
 let pockemons = PockemonModel(sequelize, DataTypes)
 sequelize.sync()
 .then(()=>console.log(`la base de données a bien été synchroniser`))
-pockemons.create({
-    id : 1,
-    nom : 'Md'
+listPockemon.map(element =>{
+    pockemons.create({
+        id : element.id,
+        nom : element.nom
+    }).then(md => console.log(md.toJSON()))
 })
-.then(md => console.log(md.toJSON()))
+
 //Middlewares
 app
     .use(favicon(__dirname + '/favicon.ico'))
