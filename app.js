@@ -40,9 +40,14 @@ sequelize.authenticate()
     .catch(err => console.log(`la connexion à la DB n'as pas été recus ${err}`))
 
 let pockemons = PockemonModel(sequelize, DataTypes)
-sequelize.sync({force: true})
+sequelize.sync()
 .then(()=>console.log(`la base de données a bien été synchroniser`))
-// Middlewares
+pockemons.create({
+    id : 1,
+    nom : 'Md'
+})
+.then(md => console.log(md.toJSON()))
+//Middlewares
 app
     .use(favicon(__dirname + '/favicon.ico'))
     .use(morgan('dev'))
