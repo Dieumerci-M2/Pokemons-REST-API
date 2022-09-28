@@ -1,7 +1,7 @@
 // Call express since node_module
 const express = require('express')
 // Call Sequilize ORM to communucate with SQL dataBase
-const Sequilize = require('sequelize')
+const {Sequelize, DataTypes} = require('sequelize')
 // Call morgan midlleware since his node_module
 const morgan = require('morgan')
 // Call body-parse middleware sice his module
@@ -13,14 +13,15 @@ let { message } = require('statuses')
 // Call success function to get message and data
 const {success,unicId} = require('./helper')
 // Call listPockemon Object to manipulate data
-const listPockemon = require('./listPockemon')
+let listPockemon = require('./listPockemon')
+const PockemonModel = require('./src/models/pockemon')
 
 // use express dependancies
 const app = express()
 // Fixe port for running app content
 const port = 5000
 // Configure Sequelize ORM
-const sequelize = new Sequilize(
+const sequelize = new Sequelize(
     'pockedex',
     'root',
     '',
@@ -37,6 +38,10 @@ const sequelize = new Sequilize(
 sequelize.authenticate()
     .then(()=> console.log(`la connexion à la DB a était bien reçus`))
     .catch(err => console.log(`la connexion à la DB n'as pas été recus ${err}`))
+
+let pockemons = PockemonModel(sequelize, DataTypes)
+sequelize.sync({force: true})
+.then(()=>console.log(`la base de données a bien été synchroniser`))
 // Middlewares
 app
     .use(favicon(__dirname + '/favicon.ico'))
@@ -80,23 +85,25 @@ app.post('/api',(req,res)=>{
     res.json(success(message,pockemonCreated))
 })
 // use Put method to update a listPochemon
-app.put('api/pockemon/:id', (req,res)=>{
-    const id = Number(req.params.id)
+app.put('/api/pockemon/:id', (req,res)=>{
+    const id = parseInt(req.params.id)
     const index = listPockemon.findIndex(pockemon => pockemon.id === id)
     if(index === -1){
         return res.send(`le Pockemon n'est pas trouver`)
     }
     const pockemonUpdate = { ...req.body, id: listPockemon[index].id
+
     } 
-    let message = `le pockemon ${pockemonUpdate.name} a bien été mofidier`
+    console.log(pockemonUpdate);
+    let message = `le pockemon ${pockemonUpdate.nom} a bien été mofidier`
     res.json(success(message,pockemonUpdate))    
     })
 
 // use DELETE method to delete one pockemon on the listPockemon
-app.delete('api/pockemon/:id' ,(req,res)=>{
+app.delete('/api/pockemon/:id' ,(req,res)=>{
     const id = parseInt(req.params.id)
-    const deletePockemon = listPockemon(pockemon=> pockemon.id === id)
-    listPockemon.filter(pockemon.id !== id)
-    let message = `le Pockemon ${deletePockemon} a bien été suprimer`
+    const deletePockemon = listPockemon.find(pockemon=> pockemon.id === id)
+    listPockemon = listPockemon.filter(pockemon => pockemon.id !== id)
+    let message = `le Pockemon ${deletePockemon.nom} a bien été suprimer`
     res.json(success(message,deletePockemon))
 })
