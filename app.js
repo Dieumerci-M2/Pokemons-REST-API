@@ -30,5 +30,6 @@ sequelize.initDb()
 // Fix All Endpoints here
 // Endpoint to get all the listPockemon
 require('./src/routes/findAllPockemons')(app)
+require('./src/routes/findPockemonByPK')(app)
 // Fix port listerning
 app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`))
