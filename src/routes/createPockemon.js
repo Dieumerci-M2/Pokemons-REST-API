@@ -4,8 +4,11 @@ module.exports = (app)=>{
     app.post('/api/pockemons', (req,res) => {
         pockemons.create(req.body)
         .then(pockemon =>{
-            const message = `un pokemon ${pockemon.nom} a bien était trouvé`
-            res.json(success({message,data: pockemon}))
+            const message = `un pokemon ${req.body.nom} a bien était créer`
+            res.status(200).json({message,data: pockemon})
         })
-    } )
+        .catch(err =>{
+            res.status(500).json({err: `Impossible d'ajouter un pockemeon Le server ne repond pas`})
+        })
+    })
 }

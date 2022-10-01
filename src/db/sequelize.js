@@ -19,15 +19,19 @@ const sequelize = new Sequelize(
 )
 
 let pockemons = PockemonModel(sequelize, DataTypes)
+
 const initDb = ()=>{
-    return sequelize.sync()
-    .then(()=>console.log(`la base de données a bien été synchroniser`))
-    listPockemon.map(element =>{
-        pockemons.create({
-            id : 1,
-            nom : element.nom
-        }).then(md => console.log(md.toJSON()))
-    }) 
+    return sequelize.sync({force: true}).then(()=>{
+        listPockemon.map(element =>{
+            pockemons.create({
+                id: element.id,
+                nom : element.nom
+            }).then(md => console.log(md.toJSON()))
+        })
+        console.log(`la base de données à était bien synchroniser`);
+    })
+    
+    
 }
 
 module.exports = {initDb, pockemons};

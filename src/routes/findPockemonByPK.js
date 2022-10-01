@@ -5,7 +5,10 @@ module.exports = (app)=>{
         pockemons.findByPk(req.params.id)
         .then(pockemon =>{
             const message = `un pokemon a bien était trouvé`
-            res.json(success({message,data: pockemon}))
+            res.status(200).json({message,data: pockemon})
+        })
+        .catch(err =>{
+            res.status(500).json({err: `Le server ne repond pas`})
         })
     } )
 }

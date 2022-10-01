@@ -6,6 +6,9 @@ module.exports = (app)=>{
         .then(allpockemons =>{
             const message = `La liste de pockemons a bien était récupérer`
             res.status(200).json({message, data: allpockemons})
+        })
+        .catch(_ =>{
+            res.status(500).json({err: `Le server ne repond pas`})
         })    
     })
 }

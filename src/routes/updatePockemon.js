@@ -1,11 +1,18 @@
 const {pockemons} = require('../db/sequelize')
 
 module.exports = (app)=>{
-    app.get('/api/pokemon/:id', (req,res) => {
-        pockemons.findByPk(req.params.id)
-        .then(pockemon =>{
-            const message = `un pokemon a bien était trouvé`
-            res.json(success({message,data: pockemon}))
+    app.put('/api/pokemon/:id', (req,res) => {
+        const id  = req.params.id
+        pockemons.update(req.body, {
+            where: {id : id}
         })
-    } )
+        .then(()=>{
+            pockemons.findByPk(id)
+            .then(pockemon =>{
+                const message = `le pokemon a bien modifier`
+                res.status(200).json({message,data: pockemon})
+            })
+        })
+       
+    })
 }
