@@ -32,5 +32,14 @@ sequelize.initDb()
 require('./src/routes/findAllPockemons')(app)
 require('./src/routes/findPockemonByPK')(app)
 require('./src/routes/createPockemon')(app)
+require('./src/routes/updatePockemon')(app)
+require('./src/routes/deletePockemon')(app)
+
+// Gestion d'Erreurs
+// L'erreur 404
+app.use(({res})=>{
+    const message = `Imposoble de trouver cette ressource! Veillez chercher un autre URL`
+    res.status(404).json({message})
+})
 // Fix port listerning
 app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`))

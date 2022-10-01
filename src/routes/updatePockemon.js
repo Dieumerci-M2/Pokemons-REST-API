@@ -12,7 +12,6 @@ module.exports = (app)=>{
                 const message = `le pokemon a bien modifier`
                 res.status(200).json({message,data: pockemon})
             })
-        })
-       
+        })  
     })
 }
