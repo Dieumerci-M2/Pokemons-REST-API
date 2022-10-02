@@ -7,7 +7,11 @@ module.exports = (sequelize, DataTypes)=>{
         },
         nom: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate:{
+                notEmpty: {msg: `Veillez entre un nom dans la base de données`},
+                notNull: {msg: `Les points de vue sont une propiétés réquise`}
+                }
         } 
     },
     {
