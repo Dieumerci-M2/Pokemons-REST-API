@@ -1,4 +1,5 @@
 const {pockemons} = require('../db/sequelize')
+const {ValidationError, UniqueConstraintError} = require('sequelize')
 
 module.exports = (app)=>{
     app.put('/api/pokemon/:id', (req,res) => {
@@ -18,6 +19,12 @@ module.exports = (app)=>{
             })
         })
         .catch(err =>{
+            if(err instanceof ValidationError){
+                res.status(400).json({message: err.message, data: err})
+                }
+            if(err instanceof UniqueConstraintError){
+                res.status(400).json({message: err.message, data: err})
+                }
             res.status(500).json({err: `Le server ne repond pas veillez ressayez apres quelques instants`})
         })  
     })
