@@ -18,7 +18,7 @@ module.exports = (app)=>{
             })
         })
         .catch(err =>{
-            res.status(500).json({err: `Le server ne repond pas veilez ressayez apres quelques instants`})
+            res.status(500).json({err: `Le server ne repond pas veillez ressayez apres quelques instants`})
         })  
     })
 }
