@@ -8,7 +8,7 @@ module.exports = (app)=>{
             return pockemons.findAll({ 
                 where : {
                     nom: {
-                        [Op.eq]: name
+                        [Op.like]: `%${name}%`
                     }
                 }
             })
