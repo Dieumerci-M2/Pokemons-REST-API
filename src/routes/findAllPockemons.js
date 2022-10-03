@@ -5,16 +5,17 @@ module.exports = (app)=>{
     app.get('/api/pockemons', (req, res)=>{ 
         if(req.query.name){
             const name = req.query.name
-            return pockemons.findAll({ 
+            return pockemons.findAndCountAll({ 
                 where : {
                     nom: {
                         [Op.like]: `%${name}%`
                     }
-                }
+                },
+                limit: 2
             })
-            .then(pockemon =>{
-                const message = `il y'a ${pockemon.length} donnée dont la recherche correspond à ${name}`
-                res.json({message, data: pockemon})
+            .then(({count,rows}) =>{
+                const message = `il y'a ${count} donnée dont la recherche correspond à ${name}`
+                res.json({message, data: rows})
             })
         } 
         pockemons.findAll()
