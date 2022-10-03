@@ -29,9 +29,7 @@ const initDb = ()=>{
             }).then(md => console.log(md.toJSON()))
         })
         console.log(`la base de données à était bien synchroniser`);
-    })
-    
-    
-}
+    })  
+}   
 
 module.exports = {initDb, pockemons};
