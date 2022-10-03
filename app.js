@@ -42,4 +42,4 @@ app.use(({res})=>{
     res.status(404).json({message})
 })
 // Fix port listerning
-app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`))
+app.listen(port, ()=> console.log( `Notre app est lancée sur : http://localhost:${port}`)) 
