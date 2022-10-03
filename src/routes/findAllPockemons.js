@@ -3,10 +3,10 @@ const {pockemons} = require('../db/sequelize')
 module.exports = (app)=>{
     app.get('/api/pockemons', (req, res)=>{ 
         if(req.query.name){
-            const nom = req.query.name
-            return pockemons.findAll({ where : {name: nom}})
+            const name = req.query.name
+            return pockemons.findAll({ where : {nom: name}})
             .then(pockemon =>{
-                const message = `il y'a ${pockemon.length} dont la recherche correspond à ${nom}`
+                const message = `il y'a ${pockemon.length} donnée dont la recherche correspond à ${name}`
                 res.json({message, data: pockemon})
             })
         } 

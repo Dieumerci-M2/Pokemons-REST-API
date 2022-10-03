@@ -15,7 +15,7 @@ module.exports = (app)=>{
             if(err instanceof UniqueConstraintError){
                 res.status(400).json({message: err.message, data: err})
                 }
-            const message = `Le server ne repond pas veillez ressayez apres quelques instants`     
+            const message = `Le server ne repond pas veillez ressayez après quelques instants`     
             res.status(500).json({message})
         })
     })
