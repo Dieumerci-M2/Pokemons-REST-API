@@ -11,6 +11,7 @@ module.exports = (app)=>{
                         [Op.like]: `%${name}%`
                     }
                 },
+                order: ['nom'],
                 limit: 2
             })
             .then(({count,rows}) =>{
@@ -18,7 +19,7 @@ module.exports = (app)=>{
                 res.json({message, data: rows})
             })
         } 
-        pockemons.findAll()
+        pockemons.findAll({order: ['nom']})
         .then(allpockemons =>{
             const message = `La liste de pockemons a bien était récupérer`
             res.status(200).json({message, data: allpockemons})
