@@ -1,10 +1,17 @@
 const {pockemons} = require('../db/sequelize')
 const {Op} = require('sequelize')
+const { message } = require('statuses')
 
 module.exports = (app)=>{
     app.get('/api/pockemons', (req, res)=>{ 
         if(req.query.name){
             const name = req.query.name
+            const limit = parseInt(req.query.limit) || 2
+
+            if(name.length < 2){
+                const message = `Le nom de votre pockemon doit contenir au moins 2 caractères`
+                res.status(400).json({message})
+            }
             return pockemons.findAndCountAll({ 
                 where : {
                     nom: {
@@ -12,7 +19,7 @@ module.exports = (app)=>{
                     }
                 },
                 order: ['nom'],
-                limit: 2
+                limit: limit 
             })
             .then(({count,rows}) =>{
                 const message = `il y'a ${count} donnée dont la recherche correspond à ${name}`

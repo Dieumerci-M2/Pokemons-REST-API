@@ -34,6 +34,7 @@ require('./src/routes/findPockemonByPK')(app)
 require('./src/routes/createPockemon')(app)
 require('./src/routes/updatePockemon')(app)
 require('./src/routes/deletePockemon')(app)
+require('./src/routes/login')(app) 
 
 // Gestion d'Erreurs
 // L'erreur 404
