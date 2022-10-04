@@ -1,9 +1,10 @@
 const {pockemons} = require('../db/sequelize')
 const {Op} = require('sequelize')
 const { message } = require('statuses')
+const auth = require('../authentification/auth')
 
 module.exports = (app)=>{
-    app.get('/api/pockemons', (req, res)=>{ 
+    app.get('/api/pockemons', auth, (req, res)=>{ 
         if(req.query.name){
             const name = req.query.name
             const limit = parseInt(req.query.limit) || 2
