@@ -1,7 +1,8 @@
 const {pockemons} = require('../db/sequelize')
+const auth = require('../authentification/auth')
 
 module.exports = (app)=>{
-    app.delete('/api/pockemon/:id', (req,res) => {
+    app.delete('/api/pockemon/:id', auth, (req,res) => {
         pockemons.findByPk(req.params.id)
         .then((pockemon) =>{
             if(pockemon === null){

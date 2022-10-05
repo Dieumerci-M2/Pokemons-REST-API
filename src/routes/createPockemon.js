@@ -1,8 +1,10 @@
 const {pockemons} = require('../db/sequelize')
+const auth = require('../authentification/auth')
+
 const {ValidationError, UniqueConstraintError} = require('sequelize')
 
 module.exports = (app)=>{
-    app.post('/api/pockemons', (req,res) => {
+    app.post('/api/pockemons', auth, (req,res) => {
         pockemons.create(req.body)
         .then(pockemon =>{
             const message = `un pokemon ${req.body.nom} a bien était créer`
